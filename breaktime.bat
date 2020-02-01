@@ -1,1 +1,1 @@
-C:\Users\umut_\Desktop\mola\noshell.vbs C:\Users\umut_\Desktop\mola\demo.bat
+noshell.vbs demo.bat

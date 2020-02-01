@@ -9,7 +9,7 @@ while True:
     time.sleep(minute * 60)    
 
     toaster = ToastNotifier()
-    toaster.show_toast(title = "MOLA VAKTİ", msg = "{} dk'dır çalışıyorsun!!".format(minute * i), 
-                       icon_path="C:\\Users\\umut_\\Desktop\\mola\\break.ico", duration=60)
+    toaster.show_toast(title = "BREAK TIME", msg = "You've been working for {} minutes!!".format(minute * i), 
+                       icon_path="break.ico", duration=60)
 
     i += 1
