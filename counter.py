@@ -1,7 +1,6 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+﻿from PyQt5 import QtCore, QtGui, QtWidgets
 import os
 from shutil import copyfile
-import codecs
 
 
 class Ui_MainWindow(object):
