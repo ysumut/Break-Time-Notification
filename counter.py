@@ -1,4 +1,4 @@
-﻿from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets
 import os
 from shutil import copyfile
 
@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         
         self.submitButton = QtWidgets.QPushButton(self.centralwidget)
-        self.submitButton.setGeometry(QtCore.QRect(30, 345, 91, 31))
+        self.submitButton.setGeometry(QtCore.QRect(30, 400, 91, 31))
         self.submitButton.setObjectName("submitButton")
         self.submitButton.clicked.connect(self.onClick)
         
@@ -35,27 +35,33 @@ class Ui_MainWindow(object):
         self.label.setObjectName("label")
         
         self.checkBox = QtWidgets.QCheckBox(self.centralwidget)
-        self.checkBox.setGeometry(QtCore.QRect(30, 130, 381, 20))
+        self.checkBox.setGeometry(QtCore.QRect(30, 130, 400, 20))
         self.checkBox.setObjectName("checkBox")
         self.checkBoxControl()
         
         self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
-        self.textEdit.setGeometry(QtCore.QRect(200, 210, 71, 31))
+        self.textEdit.setGeometry(QtCore.QRect(85, 207, 71, 31))
         self.textEdit.setObjectName("textEdit")
         
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(30, 200, 181, 41))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.label_2.setFont(font)
+        self.label_2.setGeometry(QtCore.QRect(30, 200, 50, 41))
+        self.label_2.setStyleSheet("font-size: 20px")
         self.label_2.setObjectName("label_2")
         
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(30, 275, 281, 41))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.label_3.setFont(font)
+        self.label_3.setStyleSheet("font-size: 20px")
         self.label_3.setObjectName("label_3")
+        
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(160, 200, 281, 41))
+        self.label_4.setStyleSheet("font-size: 20px")
+        self.label_4.setObjectName("label_4")
+        
+        self.dialogLabel = QtWidgets.QLabel(self.centralwidget)
+        self.dialogLabel.setGeometry(QtCore.QRect(30, 320, 500, 41))
+        self.dialogLabel.setStyleSheet("color: rgb(255,0,0)")
+        self.dialogLabel.setObjectName("dialogLabel")
         
         self.MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(self.MainWindow)
@@ -75,14 +81,19 @@ class Ui_MainWindow(object):
         self.submitButton.setText(_translate("MainWindow", "Submit"))
         self.dialogButton.setText(_translate("MainWindow", "Browse File"))
         self.label.setText(_translate("MainWindow", "Break Time Notification"))
-        self.checkBox.setText(_translate("MainWindow", "Bilgisayar açıldığında otomatik olarak çalışsın mı?"))
-        self.label_2.setText(_translate("MainWindow", "Kaç dakika olsun ?"))
+        self.checkBox.setText(_translate("MainWindow", "When the computer turns on, let the counter start automatically?"))
+        self.label_2.setText(_translate("MainWindow", "Every"))
         self.label_3.setText(_translate("MainWindow", "Select your python.exe file: "))
+        self.label_4.setText(_translate("MainWindow", "minute, the counter run."))
+        self.dialogLabel.setText(_translate("MainWindow", self.pythonPath))
 
     def onClick(self):
         if((self.pythonPath == "") or (self.textEdit.toPlainText() == "")):
-            print('Eksik yerler var!')
+            self.warningMessage()
             return
+        
+        
+        dir_path = "C:/Users/{}/Break-Time-Notification".format(os.getlogin())
         
         with open("background/bg_counter.vbs", "w") as file:
             source = 'CreateObject("Wscript.Shell").Run "{}\\background\\bg_counter.bat",0,True'.format(os.getcwd())
@@ -96,13 +107,18 @@ class Ui_MainWindow(object):
             if os.path.exists(self.counterPath):
                 os.remove(self.counterPath)
             
+            
+        if not os.path.exists(dir_path):
+            os.mkdir(dir_path)  # firstly, create a directory
+            
+        copyfile('background/break.ico', dir_path + '/break.ico')
         
-        with open("background/minute.txt", "w") as file:
+        with open(dir_path + "/minute.txt", "w") as file:
             file.write(minute)
         
         
         with open("background/bg_counter.bat", 'w') as file:
-            file.write(self.pythonPath + " " + "background_counter.py")
+            file.write(self.pythonPath + " " + "{}\\background\\background_counter.py".format(os.getcwd()))
         
         
         msg = QtWidgets.QMessageBox()
@@ -111,9 +127,6 @@ class Ui_MainWindow(object):
         msg.setInformativeText("When the computer restarts, the counter will start running.")
         msg.setWindowTitle("Information")
         msg.exec_()
-        
-        #self.MainWindow.hide()
-        #import background_counter
     
     
     def checkBoxControl(self):
@@ -124,8 +137,24 @@ class Ui_MainWindow(object):
     def openFileNameDialog(self):
         fileName = QtWidgets.QFileDialog.getOpenFileName()
         self.pythonPath = fileName[0]
+        self.retranslateUi()
         
     
+    def warningMessage(self):
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Warning)
+        msg.setText("Look Again")
+        msg.setInformativeText("There are missing things.")
+        msg.setWindowTitle("Warning")
+        msg.exec_()
+        
+    
+    def copyImage():
+        from PIL import Image
+        import numpy
+        im = Image.open("sample2.png")
+        np_im = numpy.array(im)
+        print(np_im.shape)
         
 
 if __name__ == "__main__":

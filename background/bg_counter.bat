@@ -1,1 +1,0 @@
-C:/Users/umut_/Anaconda3/python.exe background_counter.py

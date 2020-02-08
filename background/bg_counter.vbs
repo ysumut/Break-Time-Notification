@@ -1,1 +1,0 @@
-CreateObject("Wscript.Shell").Run "C:\Users\umut_\Desktop\denemeler\pyqt5\sayac_uygulamasi\background\bg_counter.bat",0,True

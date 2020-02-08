@@ -1,8 +1,10 @@
+import os
 import time
 from win10toast import ToastNotifier
 
+dir_path = "C:/Users/{}/Break-Time-Notification".format(os.getlogin())
 
-with open("minute.txt") as file: 
+with open(dir_path + "/minute.txt") as file: 
     minute = file.read()
             
     
@@ -15,6 +17,6 @@ while True:
     toaster = ToastNotifier()
     toaster.show_toast(title = "BREAK TIME", 
                        msg = "You've been working for {} minutes!!".format(minute * i), 
-                       icon_path="break.ico", duration=5)
+                       icon_path = dir_path + '/break.ico', duration = 5)
 
     i += 1
