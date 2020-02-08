@@ -149,12 +149,6 @@ class Ui_MainWindow(object):
         msg.exec_()
         
     
-    def copyImage():
-        from PIL import Image
-        import numpy
-        im = Image.open("sample2.png")
-        np_im = numpy.array(im)
-        print(np_im.shape)
         
 
 if __name__ == "__main__":
